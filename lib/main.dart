@@ -1,19 +1,12 @@
-
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-//import do pacote http para fazer as requisições
 import 'package:http/http.dart' as http;
-//impor do pacote async para poder trabalhar com requisições asincronas
-import 'dart:async';
-//import para converter os dados para json
-import 'dart:convert';
 
 const request = "https://api.hgbrasil.com/finance?format=json&key=e4ed03e3";
 
-
 void main() async {
-
   //print(await getData());
   //print(json.decode(response.body)["results"]["currencies"]["USD"]);
 
@@ -43,10 +36,46 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         backgroundColor: Colors.amber[600],
       ),
-
-      body: ,
+      body: FutureBuilder<Map>(
+        future: getData(),
+        //Context é o contexto e o snapshot é uma copia momentania dos dados da requisição
+        builder: (context, snapshot) {
+          //Verifica o estado da conexão
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              //Center centraliza outro Widget
+              return Center(
+                child: Text(
+                  "Carregando dados...",
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontSize: 25.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
+              //Caso ele obter alguma coisa ele retorna o default
+            default:
+              if(snapshot.hasError){
+                return Center(
+                  child: Text(
+                    "Error ao carregar dados :( ",
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 25.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              }else{
+                return Container(
+                  color: Colors.green,
+                );
+              }
+          }
+        },
+      ),
     );
   }
 }
-
-
