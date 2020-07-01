@@ -8,10 +8,12 @@ const request = "https://api.hgbrasil.com/finance?format=json&key=e4ed03e3";
 
 void main() async {
   //print(await getData());
-  //print(json.decode(response.body)["results"]["currencies"]["USD"]);
+  //http.Response response = await http.get(request);
+  //print(json.decode(response.body)["results"]["bitcoin"]["mercadobitcoin"]["buy"]);
 
   runApp(MaterialApp(
     home: Home(),
+    debugShowCheckedModeBanner: false,
     //Alteração para que a borda do textField fique na cor amber
     theme: ThemeData(
         hintColor: Colors.amber,
@@ -40,28 +42,74 @@ class _HomeState extends State<Home> {
   final realController = TextEditingController();
   final dolarController = TextEditingController();
   final euroController = TextEditingController();
+  final bitcoinController = TextEditingController();
 
 
   double dolar;
   double euro;
+  double bitcoin;
+
+  void _clearAll(){
+    realController.text = "";
+    dolarController.text = "";
+    euroController.text = "";
+    bitcoinController.text = "";
+  }
 
   void _realChanged(String text){
+
+    if(text.isEmpty){
+      _clearAll();
+    }
+
     double real = double.parse(text);
-    //toStringAsFixed faz com que apareça apenas 2 casa decimais
+    //toStringAsFixed faz com que apareça apenas 2 casas após o ponto
     dolarController.text = (real / dolar).toStringAsFixed(2);
     euroController.text = (real / euro).toStringAsFixed(2);
+    bitcoinController.text = (real / bitcoin).toStringAsFixed(8);
   }
 
   void _dolarChanged(String text){
+
+    if(text.isEmpty){
+      _clearAll();
+    }
+
     double dolar = double.parse(text);
     realController.text = (dolar * this.dolar).toStringAsFixed(2);
     euroController.text = (dolar * this.dolar / euro).toStringAsFixed(2);
+    bitcoinController.text = (dolar * this.dolar / bitcoin).toStringAsFixed(8);
   }
 
   void _euroChanged(String text){
+
+    if(text.isEmpty){
+      _clearAll();
+    }
+
     double euro = double.parse(text);
     realController.text = (euro * this.euro).toStringAsFixed(2);
     dolarController.text = (euro * this.euro / dolar).toStringAsFixed(2);
+    bitcoinController.text = (euro * this.euro / bitcoin).toStringAsFixed(8);
+  }
+
+  void _bitcoinChanged(String text){
+
+    if(text.isEmpty){
+      _clearAll();
+    }
+
+    double bitcoin = double.parse(text);
+    realController.text = (bitcoin * this.bitcoin).toStringAsFixed(2);
+    dolarController.text = (bitcoin * this.bitcoin / dolar).toStringAsFixed(2);
+    euroController.text = (bitcoin * this.bitcoin / euro).toStringAsFixed(2);
+  }
+
+  void _resetFields(){
+    realController.text = "";
+    dolarController.text = "";
+    euroController.text = "";
+    bitcoinController.text = "";
   }
 
   @override
@@ -72,6 +120,14 @@ class _HomeState extends State<Home> {
         title: Text("\$ Conversor de Moeda \$"),
         centerTitle: true,
         backgroundColor: Colors.amber[600],
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: (){
+              _resetFields();
+            },
+          )
+        ],
       ),
       body: FutureBuilder<Map>(
         future: getData(),
@@ -108,6 +164,7 @@ class _HomeState extends State<Home> {
               } else {
                 dolar = snapshot.data["results"]["currencies"]["USD"]["buy"];
                 euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
+                bitcoin = snapshot.data["results"]["bitcoin"]["mercadobitcoin"]["buy"];
 
                 return SingleChildScrollView(
                   padding: EdgeInsets.all(10),
@@ -124,6 +181,8 @@ class _HomeState extends State<Home> {
                       buildTextField("Dolares", "US\$ ", dolarController, _dolarChanged),
                       Divider(),
                       buildTextField("Euros", "€ ", euroController, _euroChanged),
+                      Divider(),
+                      buildTextField("Bitcoin", "₿ ", bitcoinController, _bitcoinChanged),
                     ],
                   ),
                 );
