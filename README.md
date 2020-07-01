@@ -1,6 +1,18 @@
 # conversor_moeda_flutter
 
-A new Flutter project.
+Aplicação desenvolvida no curso de flutter para a conversão de moedas.<br>
+Nessa aplicação foi ensinado o conceito de como consumir uma API com flutter, <br>
+e utilizar o FutureBuilder. <br>
+Quando o app é aberto ele faz uma requisição na API da https://hgbrasil.com/status/finance ,<br>
+e salva uma copia da requisição para que possa ser utilizada posteriormente. <br>
+Após o usuário preencher uma moeda, automaticamente ele preeche os outros TextFields, <br>
+já fazendo a conversão para a sua respectiva moeda. <br>
+Como desafio nessa apicação eu inseri um botao no canto superior direito, <br>
+onde é possivel resetar todos os textFields e adicionei o bitcoin como moeda extra. <br>
+Abaixo segue algumas imagens da aplicação que foi desenvolvida, com alguns testes de conversão das moedas.
+![](https://i.imgur.com/xCrfH0h.jpg?1)
+![](https://i.imgur.com/tZLpY53.jpg?1)
+![](https://i.imgur.com/UMmt88Q.jpg?1)
 
 ## Getting Started
 
