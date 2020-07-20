@@ -1,5 +1,7 @@
 # conversor_moeda_flutter
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7517c173ca7d4d04baea75bb6708c0c0)](https://app.codacy.com/manual/fillipe-felix/conversor_moeda_flutter?utm_source=github.com&utm_medium=referral&utm_content=fillipe-felix/conversor_moeda_flutter&utm_campaign=Badge_Grade_Dashboard)
+
 Aplicação desenvolvida no curso de flutter para a conversão de moedas.<br>
 Nessa aplicação foi ensinado o conceito de como consumir uma API com flutter, <br>
 e utilizar o FutureBuilder. <br>
